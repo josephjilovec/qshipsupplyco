@@ -1,42 +1,50 @@
 # QShip Supply Co.
 
-**Stage:** Public website concept / visual prototype  
-**Venture category:** Small-business supply chain, procurement and logistics coordination  
-**Parent studio:** Joseph Jilovec Venture Studio
+Procurement coordination for small teams. An early-stage venture from Joseph Jilovec Venture Studio.
 
-## Website design direction
+## Positioning
 
-Industrial SaaS, sharp uppercase headings, near-black surfaces, mint accent, modular dashboards and system diagrams.
+A practical purchasing desk for growing businesses. Bring repeat orders, supplier follow-ups and delivery handoffs into one accountable workflow, starting with a focused manual pilot.
 
-## First-page architecture
+### Initial audience
 
-Operational headline → illustrative logistics dashboard → three capabilities → future product walkthrough and business inquiry.
+- **Small distributors:** Owner-led businesses reordering packaging, consumables or general operating supplies from recurring suppliers.
+- **Growing online retailers:** Teams that need purchasing coordination for packaging and operating materials alongside their existing fulfillment tools.
+- **Lean purchasing teams:** Operators with enough repeat buying to need a process, but no appetite for a large enterprise-system rollout.
 
-## Current implementation
+## Proposed first offer
 
-- `index.html` is a self-contained, responsive HTML/CSS landing page.
-- The page has working in-page navigation, descriptive copy, and simple custom CSS/SVG concept artwork.
-- Illustrative dashboard content and other design mockups are **not live services**.
-- No customer-data collection, payments, third-party tracking, or external API keys.
-- Motion is minimal and respects reduced-motion preferences.
-- These visuals are art-direction placeholders; final photography, high-resolution imagery, and polished assets will be developed during the dedicated design phase.
+**The Purchasing Coordination Pilot** — A proposed pilot covering one purchasing category, an agreed supplier group and a named approver. Your business retains purchasing authority and pays suppliers directly.
 
-## Run locally
+- **A clean request register:** Record specifications, quantities, target dates, approvers and the source documents behind each request.
+- **A supplier follow-up rhythm:** Keep quote comparisons, approval decisions and delivery commitments in a shared, understandable tracker.
+- **An exception & closeout log:** Flag unconfirmed dates, shortages and missing paperwork; confirm receipt with the designated owner.
 
-Open `index.html` in a modern browser, or serve the folder using any static HTTP server.
+## Proposed validation milestones
 
-## Deploy to Vercel
+- **Choose a narrow category:** Proposed discovery: interview 8 small-business operators about recurring supply purchases and approval bottlenecks.
+- **Run a bounded pilot:** Test one category with 3 design-partner businesses for 4 weeks, with written responsibilities and direct supplier payment.
+- **Validate the operating rhythm:** Track overdue follow-ups, missing approvals and staff effort against the pre-pilot process. No savings or delivery performance is claimed yet.
 
-Import this public repository into Vercel as a static site (Framework Preset: **Other**). No build command is required; the repository root contains `index.html`. Review the project settings and deployment preview before connecting a custom domain.
+These are planning targets, not achieved results. Availability, scope, partners and commercial terms have not been validated or established.
 
-## Next design iteration
+## Website
 
-Define target business segment and first workflow, design interactive order-state demo, implement authenticated software only when backend and data model are ready.
+- Buildless HTML/CSS/JavaScript; serve this repository root with any static server.
+- Responsive navigation, native FAQ disclosures, and a browser-local inquiry builder.
+- No submissions, analytics, tracking, payments, accounts, API integrations or persistent storage.
+- The inquiry builder creates an editable brief. Copy it or open an email draft; the visitor sends it themselves.
+- Keyboard navigation, form labels, focus outlines, skip link and reduced-motion support.
+- Hero raster asset is AI-generated concept imagery, optimized as WebP. It is not documentary evidence of a site, service or product. See `assets/IMAGE_NOTES.md`.
 
-## Confidential planning
+## Deployment
 
-Keep financial models, internal strategy, pricing experiments, private partners and proprietary implementation details in the private `josephjilovec/priv.venturefiles` repository, **not** in this public repo.
+Preserve the existing Vercel project and domains. Framework: Other; no build command; publish the repository root. Deployments depend on the repository's hosting integration.
 
-## Important
+## Validation
 
-The venture name is a working brand pending trademark/domain clearance. This page is a concept preview, not a claim that services, inventory, software integrations, or regulated offerings are operational.
+Check JavaScript syntax, internal anchors, asset existence and responsive layout. Run a browser preview to exercise mobile navigation, inquiry preparation, edits, copying and FAQ interactions. The website has no live service bookings.
+
+## Public scope
+
+Keep confidential financial models, pricing experiments and partner negotiations in private planning repositories. Working brand and pilot service remain subject to validation before commercial launch.
