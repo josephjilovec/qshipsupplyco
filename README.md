@@ -19,3 +19,7 @@ Semantic landmarks, visible focus, labeled inputs, mobile navigation, reduced-mo
 ## Checks
 
 Check JavaScript syntax, local asset paths and anchors. Verify desktop and narrow layouts, keyboard controls, the demonstration state changes, mobile navigation, and inquiry creation/editing. An email draft is not an email delivery test.
+
+## Mobile keyboard navigation
+
+Escape closes an open mobile menu and returns focus to its toggle. The purchasing desk, client-approval boundary, receipt discrepancy, and browser-local inquiry draft remain unchanged.

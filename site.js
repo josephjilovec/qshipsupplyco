@@ -13,6 +13,18 @@ navLinks?.querySelectorAll("a").forEach((a) =>
     navToggle.textContent = "Menu";
   }),
 );
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape" &&
+    navToggle?.getAttribute("aria-expanded") === "true" &&
+    navLinks
+  ) {
+    navLinks.dataset.open = "false";
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.textContent = "Menu";
+    navToggle.focus();
+  }
+});
 const form = document.querySelector("[data-inquiry]");
 function connectBrief(title, collect) {
   if (!form) return;
