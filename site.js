@@ -121,6 +121,14 @@ document.querySelectorAll("[data-stage]").forEach((b) =>
   b.addEventListener("click", () => {
     manualStage = true;
     setStage(b.dataset.stage);
+    if (!window.matchMedia("(max-width: 800px)").matches) {
+      document.getElementById(b.dataset.stage)?.scrollIntoView({
+        block: "center",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    }
   }),
 );
 observeChapters(".purchase-chapter", (id) => {

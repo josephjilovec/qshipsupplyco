@@ -23,3 +23,5 @@ Check JavaScript syntax, local asset paths and anchors. Verify desktop and narro
 ## Mobile keyboard navigation
 
 Escape closes an open mobile menu and returns focus to its toggle. The purchasing desk, client-approval boundary, receipt discrepancy, and browser-local inquiry draft remain unchanged.
+
+On the wide two-column desk, selecting a stage also brings its corresponding explanation into view. On narrow screens, the updated record stays in place. Reduced-motion preferences use an immediate scroll for the wide-layout alignment.
