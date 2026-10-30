@@ -1,173 +1,178 @@
-const navToggle = document.querySelector(".nav-toggle");
-const navLinks = document.querySelector(".nav-links");
-navToggle?.addEventListener("click", () => {
-  const open = navToggle.getAttribute("aria-expanded") !== "true";
-  navToggle.setAttribute("aria-expanded", String(open));
-  navToggle.textContent = open ? "Close" : "Menu";
-  navLinks.dataset.open = String(open);
-});
-navLinks?.querySelectorAll("a").forEach((a) =>
-  a.addEventListener("click", () => {
-    navLinks.dataset.open = "false";
-    navToggle.setAttribute("aria-expanded", "false");
-    navToggle.textContent = "Menu";
-  }),
-);
-document.addEventListener("keydown", (event) => {
-  if (
-    event.key === "Escape" &&
-    navToggle?.getAttribute("aria-expanded") === "true" &&
-    navLinks
-  ) {
-    navLinks.dataset.open = "false";
-    navToggle.setAttribute("aria-expanded", "false");
-    navToggle.textContent = "Menu";
-    navToggle.focus();
+(() => {
+  'use strict';
+  document.documentElement.classList.add('js');
+  const $ = (selector) => document.querySelector(selector);
+  const $$ = (selector) => [...document.querySelectorAll(selector)];
+  const header = $('.site-header');
+  const hero = $('.hero');
+  const motionButton = $('.motion-toggle');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let paused = reduced.matches;
+  function applyMotion() {
+    const off = paused || reduced.matches;
+    document.body.dataset.motion = off ? 'off' : 'on';
+    motionButton.hidden = false;
+    motionButton.disabled = reduced.matches;
+    motionButton.setAttribute('aria-pressed', String(off));
+    motionButton.setAttribute('aria-label', reduced.matches ? 'Decorative motion disabled by your reduced-motion preference' : off ? 'Play decorative motion' : 'Pause decorative motion');
+    $('.motion-icon').textContent = off ? '▷' : 'Ⅱ';
+    $('.motion-label').textContent = reduced.matches ? 'Reduced' : off ? 'Off' : 'Motion';
   }
-});
-const form = document.querySelector("[data-inquiry]");
-function connectBrief(title, collect) {
-  if (!form) return;
-  form
-    .querySelectorAll('[type="submit"]')
-    .forEach((button) => (button.disabled = false));
-  const result = document.getElementById("brief-result"),
-    area = document.getElementById("brief-text"),
-    email = document.getElementById("email-brief"),
-    status = document.getElementById("copy-status");
-  const update = () => {
-    email.href =
-      "mailto:josephjilovec@pm.me?subject=" +
-      encodeURIComponent(title) +
-      "&body=" +
-      encodeURIComponent(area.value);
-  };
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    area.value =
-      title +
-      "\n\n" +
-      collect(new FormData(form)) +
-      "\n\nI understand this service is in development. Please let me know whether a suitable pilot is available and agree the scope before any engagement.";
-    update();
-    result.hidden = false;
-    document.getElementById("brief-heading").focus();
-    status.textContent =
-      "Draft created in this browser. Nothing has been sent.";
+  motionButton.addEventListener('click', () => { paused = !paused; applyMotion(); });
+  reduced.addEventListener?.('change', () => { paused = reduced.matches; applyMotion(); });
+  applyMotion();
+
+  const toggle = $('.nav-toggle');
+  const nav = $('#navigation');
+  const mobile = window.matchMedia('(max-width: 800px)');
+  function closeMenu(returnFocus = false) {
+    nav.dataset.open = 'false';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.querySelector('span').textContent = 'Menu';
+    if (returnFocus) toggle.focus();
+  }
+  function setNavigation() { toggle.hidden = !mobile.matches; closeMenu(); }
+  setNavigation();
+  mobile.addEventListener?.('change', setNavigation);
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('span').textContent = open ? 'Close' : 'Menu';
+    nav.dataset.open = String(open);
   });
-  area.addEventListener("input", update);
-  document.getElementById("copy-brief").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(area.value);
-      status.textContent =
-        "Copied. Paste the draft into your preferred email app.";
-    } catch {
-      area.focus();
-      area.select();
-      status.textContent =
-        "Select and copy the draft above using your device’s copy command.";
+  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu(true);
+  });
+
+  let scheduled = false;
+  function updateScroll() {
+    scheduled = false;
+    const y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 24);
+    const height = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    header.style.setProperty('--page-progress', String(Math.min(1, y / height)));
+    if (!paused && !reduced.matches && y < hero.offsetHeight + window.innerHeight) {
+      hero.style.setProperty('--hero-offset', `${Math.min(65, y * 0.13)}px`);
+      hero.style.setProperty('--stamp-rotation', `${Math.min(30, y * 0.04)}deg`);
     }
-  });
-  form.addEventListener("input", (e) => {
-    if (e.target.closest("#brief-result")) return;
-    result.hidden = true;
-    status.textContent = "";
-  });
-}
-function observeChapters(selector, onChange) {
-  if (!("IntersectionObserver" in window)) return;
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const active = entries
-        .filter((e) => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (active) onChange(active.target.dataset.chapter);
-    },
-    { rootMargin: "-18% 0px -36% 0px", threshold: [0, 0.25, 0.5] },
-  );
-  document.querySelectorAll(selector).forEach((e) => observer.observe(e));
-}
-const stageData = {
-  request: {
-    status: "Ready to clarify",
-    html: '<div class="record-line"><span>Specification</span><strong>Existing carton specification — verify before quote</strong></div><div class="record-line"><span>Required date</span><strong>To be agreed with the client</strong></div><div class="record-line"><span>Next action</span><strong>Confirm size, grade and quantity with Operations</strong></div><div class="owner-note"><b>OWNER / OPERATIONS</b><p>A clear request comes before a supplier commitment.</p></div>',
-  },
-  quotes: {
-    status: "Compare full scope",
-    html: '<div class="quote-grid"><div class="quote-card"><small>FICTIONAL SUPPLIER A</small><h3>$768</h3><p>1,000 × $0.72 = $720<br>Delivery estimate: $48</p><p>Lead time: unconfirmed</p></div><div class="quote-card"><small>FICTIONAL SUPPLIER B</small><h3>$776</h3><p>1,000 × $0.68 = $680<br>Delivery estimate: $96</p><p>Lead time: unconfirmed</p></div></div><p class="board-caution">Illustrative USD estimates before tax. Supplier B has the lower unit price; Supplier A has the lower estimated total. Specifications, tax, delivery and timing still need confirmation.</p><div class="owner-note"><b>NEXT / COORDINATOR</b><p>Return a comparable scope to the client. Do not choose on unit price alone.</p></div>',
-  },
-  approval: {
-    status: "Client decision required",
-    html: '<div class="record-line"><span>Commercial authority</span><strong>The client chooses and approves the supplier.</strong></div><div class="record-line"><span>Payment</span><strong>Client pays the supplier directly.</strong></div><div class="record-line"><span>Coordination record</span><strong>Record the approved scope, date and named decision maker.</strong></div><div class="owner-note"><b>HUMAN CHECKPOINT</b><p>This demonstration does not approve an order or create a purchase commitment.</p></div>',
-  },
-  receipt: {
-    status: "Exception remains open",
-    html: '<div class="quantity-banner">980 / 1,000<small>UNITS RECEIVED / UNITS ORDERED — FICTIONAL EXAMPLE</small></div><div class="exception"><h3>20 cartons short</h3><p>Receiving records the quantity. The coordinator asks the supplier to confirm the shortfall and a proposed resolution. The client accepts or queries that proposal.</p></div><div class="record-line"><span>Next owners</span><strong>Receiving → Supplier → Client approval of resolution</strong></div><p class="board-caution">No automatic closeout. The issue stays visible until the agreed resolution is recorded.</p>',
-  },
-};
-function setStage(id) {
-  const item = stageData[id];
-  if (!item) return;
-  document.getElementById("order-status").textContent = item.status;
-  document.getElementById("board-content").innerHTML = item.html;
-  document
-    .querySelectorAll("[data-stage]")
-    .forEach((b) =>
-      b.setAttribute("aria-pressed", String(b.dataset.stage === id)),
-    );
-}
-let manualStage = false;
-document.querySelectorAll("[data-stage]").forEach((b) =>
-  b.addEventListener("click", () => {
-    manualStage = true;
-    setStage(b.dataset.stage);
-    if (!window.matchMedia("(max-width: 800px)").matches) {
-      document.getElementById(b.dataset.stage)?.scrollIntoView({
-        block: "center",
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+  }
+  function queueScroll() { if (!scheduled) { scheduled = true; requestAnimationFrame(updateScroll); } }
+  window.addEventListener('scroll', queueScroll, { passive: true });
+  window.addEventListener('resize', queueScroll, { passive: true });
+  updateScroll();
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
       });
+    }, { threshold: 0.12 });
+    $$('[data-reveal]').forEach((element) => observer.observe(element));
+  }
+
+  const services = {
+    supplies: { image: 'supply-details', alt: 'Illustrative concept of corrugated cartons, packing paper and a tape dispenser on a workbench', kicker: 'EVERYDAY ESSENTIALS', title: 'The things you order. Again. And again.', copy: 'Packaging, everyday consumables and other repeat purchases. A proposed pilot would bring the specification, ordering rhythm and supplier questions into one manageable scope.', tag: 'Start with one recurring category' },
+    comparisons: { image: 'purchasing-desk', alt: 'AI-generated concept of colleagues checking a carton sample against paper specifications', kicker: 'COMPARABLE INFORMATION', title: 'Compare the commitment. Not just the unit price.', copy: 'Keep specifications, delivery charges, quantities and unanswered questions together. Your team gets a clearer comparison and retains the supplier decision.', tag: 'A fuller picture before approval' },
+    followups: { image: 'hero', alt: 'AI-generated concept of an orderly small-business packing workspace', kicker: 'A VISIBLE NEXT ACTION', title: 'An open question should have a next owner.', copy: 'A supplier confirmation that has not arrived. A short delivery. An unresolved discrepancy. The proposed coordination record keeps the question and the next follow-up visible.', tag: 'A named owner through closeout' }
+  };
+  const choices = $$('.service-choice');
+  function selectService(key) {
+    const item = services[key];
+    if (!item) return;
+    choices.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.service === key)));
+    const image = $('#service-image');
+    image.alt = item.alt;
+    image.srcset = `assets/${item.image}-768.webp 768w, assets/${item.image}.webp 1536w`;
+    image.src = `assets/${item.image}.webp`;
+    $('#service-kicker').textContent = item.kicker;
+    $('#service-panel-title').textContent = item.title;
+    $('#service-copy').textContent = item.copy;
+    $('#service-tag').textContent = item.tag;
+  }
+  choices.forEach((button, index) => {
+    button.addEventListener('click', () => selectService(button.dataset.service));
+    button.addEventListener('keydown', (event) => {
+      let next;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % choices.length;
+      else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + choices.length - 1) % choices.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = choices.length - 1;
+      if (next !== undefined) { event.preventDefault(); choices[next].focus(); selectService(choices[next].dataset.service); }
+    });
+  });
+
+  const node = (tag, className, text) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  };
+  function paragraph(text, className = '') { return node('p', className, text); }
+  function quoteCard(supplier, total, calculation, delivery) {
+    const card = node('article', 'example-quote');
+    card.append(node('small', 'mini-label', supplier), node('h3', '', total), paragraph(calculation), paragraph(delivery), node('span', '', 'Lead time: not confirmed'));
+    return card;
+  }
+  function selectExample(key) {
+    const output = $('#sample-content');
+    output.replaceChildren();
+    if (key === 'quotes') {
+      const cards = node('div', 'example-quotes');
+      cards.append(quoteCard('FICTIONAL SUPPLIER A', '$768', '1,000 cartons × $0.72 = $720', 'Delivery estimate: $48'), quoteCard('FICTIONAL SUPPLIER B', '$776', '1,000 cartons × $0.68 = $680', 'Delivery estimate: $96'));
+      output.append(cards, paragraph('Illustrative USD estimates before tax. Supplier B has the lower unit price; Supplier A has the lower estimated total. Specification, tax, delivery and timing still need confirmation.', 'example-note'), paragraph('Your business chooses the supplier, approves the commitment and pays directly. QShip’s proposed role is to keep the comparison and follow-up clear.', 'example-note'));
+    } else {
+      const exception = node('div', 'receipt-exception');
+      exception.append(node('h3', '', '20 cartons short'), paragraph('In this fictional example, Receiving records a shortfall. The coordinator asks the supplier to confirm what happened and propose a resolution. The client reviews and accepts or queries that proposal.'));
+      output.append(node('div', 'receipt-number', '980 / 1,000'), node('span', 'receipt-label', 'UNITS RECEIVED / UNITS ORDERED · FICTIONAL EXAMPLE'), exception, paragraph('The discrepancy stays open until the agreed resolution is recorded. This example does not place an order or resolve an actual claim.', 'example-note'));
     }
-  }),
-);
-observeChapters(".purchase-chapter", (id) => {
-  if (!manualStage) setStage(id);
-});
-window.addEventListener(
-  "wheel",
-  () => {
-    manualStage = false;
-  },
-  { passive: true },
-);
-window.addEventListener(
-  "touchmove",
-  () => {
-    manualStage = false;
-  },
-  { passive: true },
-);
-window.addEventListener("keydown", (e) => {
-  if (
-    ["PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"].includes(
-      e.key,
-    ) &&
-    !e.target.matches("input,textarea,select")
-  )
-    manualStage = false;
-});
-connectBrief(
-  "QShip Supply Co. — coordination pilot interest",
-  (d) =>
-    "Recurring category: " +
-    d.get("category") +
-    "\nHandoff to improve: " +
-    d.get("handoff") +
-    "\nOrdering rhythm: " +
-    d.get("rhythm") +
-    "\nApproving role: " +
-    (d.get("authority") || "To be defined") +
-    "\nRecurring complication: " +
-    (d.get("context") || "To discuss"),
-);
+    $$('[data-example]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.example === key)));
+  }
+  const dialog = $('#example-dialog');
+  const exampleButton = $('[data-open-example]');
+  let exampleOpener;
+  exampleButton.disabled = false;
+  exampleButton.addEventListener('click', () => {
+    exampleOpener = document.activeElement;
+    selectExample('quotes');
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else { dialog.setAttribute('open', ''); dialog.setAttribute('role', 'dialog'); }
+    $('[data-close-example]').focus();
+  });
+  function closeExample() {
+    if (typeof dialog.close === 'function') dialog.close(); else dialog.removeAttribute('open');
+    exampleOpener?.focus();
+  }
+  $('[data-close-example]').addEventListener('click', closeExample);
+  dialog.addEventListener('close', () => exampleOpener?.focus());
+  dialog.addEventListener('click', (event) => {
+    const bounds = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) closeExample();
+  });
+  $$('[data-example]').forEach((button) => button.addEventListener('click', () => selectExample(button.dataset.example)));
+
+  const form = $('[data-inquiry]');
+  const result = $('#brief-result');
+  const area = $('#brief-text');
+  const email = $('#email-brief');
+  const status = $('#copy-status');
+  const title = 'QShip Supply Co. — coordination pilot interest';
+  function updateEmail() { email.href = `mailto:josephjilovec@pm.me?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(area.value)}`; }
+  form.querySelector('[type="submit"]').disabled = false;
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    area.value = `${title}\n\nRecurring category: ${data.get('category')}\nHandoff to improve: ${data.get('handoff')}\nOrdering rhythm: ${data.get('rhythm')}\nApproving role: ${data.get('authority') || 'To be defined'}\nRecurring complication: ${data.get('context') || 'To discuss'}\n\nI understand this service is in development. Please let me know whether a suitable pilot is available and agree the scope before any engagement.`;
+    updateEmail();
+    result.hidden = false;
+    $('#brief-heading').focus({ preventScroll: true });
+    result.scrollIntoView({ block: 'start', behavior: paused || reduced.matches ? 'auto' : 'smooth' });
+    status.textContent = 'Draft created in this browser. Nothing has been sent.';
+  });
+  form.addEventListener('input', (event) => { if (!event.target.closest('#brief-result')) { result.hidden = true; status.textContent = ''; } });
+  area.addEventListener('input', updateEmail);
+  $('#copy-brief').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(area.value); status.textContent = 'Copied. Paste the draft into your preferred email app.'; }
+    catch { area.focus(); area.select(); status.textContent = 'Select and copy the draft above using your device’s copy command.'; }
+  });
+})();

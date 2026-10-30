@@ -2,26 +2,22 @@
 
 Public website: https://qshipsupplyco.josephjilovec.com/
 
-## Website
+A photo-led purchasing coordination concept for lean teams. The website uses a full-screen photographic opening, moving typography, a selectable service gallery, an optional sample-comparison dialog, a photographic responsibility statement and a browser-local enquiry builder. The previous numbered scroll-through desk has been removed.
 
-Fictional purchasing desk with request, quote, approval and receipt stages; sample quote arithmetic and a receipt exception; category-specific coordination inquiry.
+## Deployment
 
-Static HTML, CSS and JavaScript. Serve the repository root. Preserve the current Vercel project, domains and buildless deployment settings. No dependency installation or framework build is required.
+Static HTML, CSS and JavaScript. Serve the repository root with the existing Vercel project and custom domain. There is no package installation or framework build. The site uses a locally served open-source font and optimized local WebP assets. No reference-site code, branding or imagery is included.
 
-## Public functionality
+## Interaction and accessibility
 
-The demonstrations run locally in the visitor's browser and use explicitly labeled fictional data or concept imagery. The inquiry creates an editable draft that can be copied or opened in the visitor's email app. The visitor reviews and sends it; the website does not transmit or store form data. There are no accounts, payments, bookings, telemetry integrations, analytics or live operating records. The proposed service remains in development.
+Normal page scrolling is preserved. Decorative motion uses CSS animation, section entrance effects and lightweight scroll-linked image movement. A pause control stops decorative animation; reduced-motion preferences disable it. Content stays visible without JavaScript, and the navigation has a mobile menu with Escape support. Service choices work with pointer, Tab/Enter and arrow keys. The native sample dialog supports keyboard dismissal and returns focus to its opener.
 
-## Accessibility and assets
+The sample prices and receiving discrepancy are fictional, not offers or actual customer results. The proposed service remains in development. Supplier selection, purchasing approval and payment remain with the client. The site does not offer carriage, freight brokerage, customs services, inventory ownership or handling of client funds.
 
-Semantic landmarks, visible focus, labeled inputs, mobile navigation, reduced-motion support and a no-JavaScript email alternative. Supporting images are lazy-loaded. Raster imagery has responsive WebP versions. See `assets/IMAGE_NOTES.md` for provenance. Diagrams and interface artifacts are native SVG/HTML, with accompanying text.
+The enquiry builds an editable draft in browser memory. It is not transmitted or stored by the website. The visitor can copy it or open their email application, review it and send it themselves. No accounts, payments, live orders, analytics or backend integrations are represented.
 
-## Checks
+## Assets and verification
 
-Check JavaScript syntax, local asset paths and anchors. Verify desktop and narrow layouts, keyboard controls, the demonstration state changes, mobile navigation, and inquiry creation/editing. An email draft is not an email delivery test.
+See `assets/IMAGE_NOTES.md` for generated-image provenance and the exact prompt set. `assets/OFL-Barlow.txt` contains the self-hosted font license.
 
-## Mobile keyboard navigation
-
-Escape closes an open mobile menu and returns focus to its toggle. The purchasing desk, client-approval boundary, receipt discrepancy, and browser-local inquiry draft remain unchanged.
-
-On the wide two-column desk, selecting a stage also brings its corresponding explanation into view. On narrow screens, the updated record stays in place. Reduced-motion preferences use an immediate scroll for the wide-layout alignment.
+Validate JavaScript syntax, local assets and fragment links; inspect desktop, tablet and narrow-phone layouts. Check the service gallery, sample arithmetic, receipt view, motion pause, mobile menu, local enquiry generation and edited email draft. Email opening is not delivery verification.
