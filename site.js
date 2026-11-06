@@ -156,7 +156,7 @@
   const email = $('#email-brief');
   const status = $('#copy-status');
   const title = 'QShip Supply Co. — coordination pilot interest';
-  function updateEmail() { email.href = `mailto:josephjilovec@pm.me?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(area.value)}`; }
+  function updateEmail() { email.href = 'https://summithillholdings.com/contact?venture=qship-supply-co'; }
   form.querySelector('[type="submit"]').disabled = false;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -172,7 +172,7 @@
   form.addEventListener('input', (event) => { if (!event.target.closest('#brief-result')) { result.hidden = true; status.textContent = ''; } });
   area.addEventListener('input', updateEmail);
   $('#copy-brief').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(area.value); status.textContent = 'Copied. Paste the draft into your preferred email app.'; }
+    try { await navigator.clipboard.writeText(area.value); status.textContent = 'Copied. Paste the draft into your contact page after opening it.'; }
     catch { area.focus(); area.select(); status.textContent = 'Select and copy the draft above using your device’s copy command.'; }
   });
 })();

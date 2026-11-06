@@ -1,6 +1,6 @@
 # QShip Supply Co.
 
-Public website: https://qshipsupplyco.josephjilovec.com/
+Public website: https://qshipsupplyco.summithillholdings.com/
 
 A photo-led purchasing coordination concept for lean teams. The website uses a full-screen photographic opening, moving typography, a selectable service gallery, an optional sample-comparison dialog, a photographic responsibility statement and a browser-local enquiry builder. The previous numbered scroll-through desk has been removed.
 
